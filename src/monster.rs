@@ -1,14 +1,16 @@
 use std::cmp;
 
+use crate::attack_summary::AttackSummary;
+
 pub struct Monster {
     health: usize,
 }
 
 impl Monster {
-    pub fn take_damage(&mut self, amount: usize, on_damage_received: impl FnOnce(usize)) {
+    pub fn take_damage(&mut self, amount: usize) -> AttackSummary {
         let damage_received = cmp::min(self.health, amount);
         self.health -= damage_received;
-        on_damage_received(damage_received);
+        AttackSummary(damage_received)
     }
 }
 

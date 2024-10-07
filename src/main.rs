@@ -1,7 +1,9 @@
+use attack_summary::AttackSummary;
 use damage_counter::DamageCounter;
 use monster::Monster;
 use rand::Rng;
 
+mod attack_summary;
 mod damage_counter;
 mod monster;
 
@@ -15,7 +17,8 @@ fn main() {
         let target = &mut monsters[index];
 
         let damage = rng.gen_range(0..50);
-        target.take_damage(damage, |dmg| counter.on_damage_received(dmg));
+        let AttackSummary(damage_received) = target.take_damage(damage);
+        counter.on_damage_received(damage_received);
 
         println!("Monster {} received {} damage", index, damage);
     }
